@@ -1,0 +1,1 @@
+cdk deploy --no-path-metadata --no-asset-metadata --profile ${PROFILE}
