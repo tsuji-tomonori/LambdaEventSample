@@ -7,10 +7,10 @@ from stack.lambda_event_sample_stack import LambdaEventSampleStack
 # resource in lambda_event_sample/lambda_event_sample_stack.py
 
 
-def test_sqs_queue_created():
-    app = core.App()
-    stack = LambdaEventSampleStack(app, "lambda-event-sample")
-    template = assertions.Template.from_stack(stack)
+# def test_sqs_queue_created():
+#     app = core.App()
+#     stack = LambdaEventSampleStack(app, "lambda-event-sample")
+#     template = assertions.Template.from_stack(stack)
 
 #     template.has_resource_properties("AWS::SQS::Queue", {
 #         "VisibilityTimeout": 300

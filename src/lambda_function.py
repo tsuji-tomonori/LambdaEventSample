@@ -43,7 +43,7 @@ class LambdaEnviron(NamedTuple):
 class LambdaHandler(NamedTuple):
     lambda_env: LambdaEnviron
     db: Dynamodb
-    pkey: dict[str, Any]
+    pkey: str
 
     @classmethod
     def of(cls, event) -> LambdaHandler:
@@ -53,19 +53,24 @@ class LambdaHandler(NamedTuple):
             pkey=event["pkey"],
         )
 
-    def service(self) -> None:
+    def service(self) -> Any:
         item = self.db.get_item(self.lambda_env.DB_NAME, self.pkey)
         logger.info(json.dumps(item, indent=2))
+        return {
+            "item": item,
+            "code": 200,
+        }
 
-    def __call__(self) -> None:
+    def __call__(self) -> Any:
         return self.service()
 
 
 def lambda_handler(event, context):
     try:
         handler = LambdaHandler.of(event=event)
-        handler()
-        return 200
+        return handler()
     except:
         logger.exception("Not Retry Error!")
-        return 400
+        return {
+            "code": 400
+        }
